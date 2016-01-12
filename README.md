@@ -22,20 +22,23 @@ $ git config --global user.email "your_email@whatever.com"
 
 3. Get the CS3210 code source from git
 
+```
 $mkdir ~/cs3210
 $ cd ~/cs3210
 $ git clone git://tc.gtisc.gatech.edu/cs3210-lab lab
 $ cd lab
----------------------------
+```
 
-4.Now check the status of our source 
+4. Now check the status of our source 
 
+```
 $ git status
+```
 
 Your status will show that you are in the master branch
 On branch master
 nothing to commit, working directory clean
----------------------------
+
 
 5. Now, from your root source directory execute
 
