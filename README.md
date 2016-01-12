@@ -44,21 +44,27 @@ nothing to commit, working directory clean
 
 ```
 $ ls -C .git
-```
-
 
 Your output will be
 COMMIT_EDITMSG	ORIG_HEAD	index		objects
 HEAD		config		logs		refs
+```
+
 
 The .git directory contains all the bookeeping information required
 to track versions.
 
 Try executing the following command to see all the objects in git
-$ ls -C .git/objects
 
----------------------------
+```
+$ ls -C .git/objects
+```
+
+
 6. Now lets explore the git .config file.
+
+```
+
 [core]
         repositoryformatversion = 0
         filemode = true
@@ -70,28 +76,37 @@ $ ls -C .git/objects
         url = git://tc.gtisc.gatech.edu/cs3210-lab
         fetch = +refs/heads/*:refs/remotes/origin/*
 
+```
 Look into the origin and the branch information
----------------------------
+
 
 7. Now, lets try adding a file, and staging our changes
 create somefile, say "test.txt"
 
+```
 $ git add test.txt
 $ git status
+```
+
 
 you will see the following output
 
+```
 On branch lab
 Changes to be committed:
   (use "git reset HEAD <file>..." to unstage)
 	modified:  test.txt
----------------------------
+```
+
+
 8. Now let us commit the changes to the sever
 
+```
 $ git commit -m "some comments here"
 [lab 569aa96] Using ARGV
  1 files changed, 1 insertions(+), 1 deletions(-)
----------------------------
+```
+
 
 9. Now, try to revert your changes
 
