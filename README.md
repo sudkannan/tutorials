@@ -19,6 +19,8 @@ details about git at http://gitimmersion.com/index.html
 $ sudo apt-get install git  (in ubuntu)
 ```
 
+1. Install git 
+
 2. Set your user name and email
 
 ```
