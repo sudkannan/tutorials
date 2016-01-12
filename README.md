@@ -187,65 +187,109 @@ Please enter your API key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ## Part 2. Getting hands dirty with QEMU 
 QEMU includes a built-in monitor that can inspect and modify the machine state in useful ways. To enter the monitor, press Ctrl-a c in the terminal running QEMU. Press Ctrl-a c again to switch back to the serial console. For a complete reference to the monitor commands, see the QEMU manual. Here are some particularly useful commands:
 
-Display a hex dump of N words starting at physical address paddr. If N is omitted, it defaults to 1. This is the physical memory analogue of GDB's x command.
-```
-xp/Nx paddr
-```
+QEMU Emulator
+In cs3210, we will use the QEMU Emulator, a modern and relatively fast emulator
 
-Display registers
+To get started, lets compile our first kernel
 
 ```
-info registers
+$ cd lab
+$ make
++ as kern/entry.S
++ cc kern/init.c
++ cc kern/console.c
++ cc kern/monitor.c
++ cc kern/printf.c
++ cc lib/printfmt.c
++ cc lib/readline.c
++ cc lib/string.c
++ ld obj/kern/kernel
++ as boot/boot.S
++ cc -Os boot/main.c
++ ld boot/boot
+boot block is 414 bytes (max 510)
++ mk obj/kern/kernel.img
 ```
 
-Display a full dump of the machine's internal register state. In particular, this includes the machine's hidden segment state for the segment selectors and the local, global, and interrupt descriptor tables, plus the task register. This hidden state is the information the virtual CPU read from the GDT/LDT when the segment selector was loaded. Here's the CS when running in the JOS kernel in lab 1 and the meaning of each field:
+If you get errors, then you need to install Linux 32-bit library. Note, your QEMU PC emulator is 32bit
+```
+$ sudo apt-get install gcc-multilib
+```
+
+Now lets run our OS kernel that we just built using the QEMU emulator. QEMU takes the kernel image as a parameter 
+that we just built. To check, open the Makefile in the JOS (lab) directory. Look for the following statement below.
 
 ```
-CS =0008 10000000 ffffffff 10cf9a00 DPL=0 CS32 [-R-]
-CS =0008
-```
-The visible part of the code selector. We're using segment 0x8. This also tells us we're referring to the global descriptor table (0x8&4=0), and our CPL (current privilege level) is 0x8&3=0.
-```
-10000000
-```
-The base of this segment. 
-```
-Linear address = logical address + 0x10000000.
-ffffffff
-```
-The limit of this segment. Linear addresses above 0xffffffff will result in segment violation exceptions.
-10cf9a00
-The raw flags of this segment, which QEMU helpfully decodes for us in the next few fields.
-DPL=0
-The privilege level of this segment. Only code running with privilege level 0 can load this segment.
-CS32
-This is a 32-bit code segment. Other values include DS for data segments (not to be confused with the DS register), and LDT for local descriptor tables.
-[-R-]
+qemu: $(IMAGES) pre-qemu
+        $(QEMU) $(QEMUOPTS)
 
+```
 
- Display mapped virtual memory and permissions
-```
-info mem
-```
-For example,
-```
-ef7c0000-ef800000 00040000 urw
-efbf8000-efc00000 00008000 -rw
-```
-tells us that the 0x00040000 bytes of memory from 0xef7c0000 to 0xef800000 are mapped read/write and user-accessible, while the memory from 0xefbf8000 to 0xefc00000 is mapped read/write, but only kernel-accessible.
+Your "qemu:" variable is already set with the command for launching the QEMU.
 
+Now lets launch our OS
 
-Display the current page table structure
 ```
-info pg
+make qemu
 ```
-The output is similar to info mem, but distinguishes page directory entries and page table entries and gives the permissions for each separately. Unbroken sequences of PDE's or PTE's with identical permissions are compressed into a single line, where the number in parenthesis gives the number of PDE's or PTE's in hex. For example,
-PDE(001) 00000000-00400000 00400000 urw
- |-- PTE(000008) 00200000-00208000 00008000 urw
-PDE(001) 00800000-00c00000 00400000 urw
- |-- PTE(000006) 00800000-00806000 00006000 urw
-This shows two page directory entries, spanning 0x00000000 to 0x00400000 and 0x00800000 to 0x00c00000, respectively. The first PDE contains a sequence of 0x8 PTE's spanning 0x00008000 bytes of virtual memory from 0x00200000 to 0x00208000.
 
+You will see a separate window with the following output
+
+```
+Booting from Hard Disk...
+6828 decimal is XXX octal!
+entering test_backtrace 0
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+K>
+```
+
+Now lets install a debugger to debug the PC emulator. You can close the emulator for now.
+
+```
+$ sudo apt-get install gdb
+```
+
+Now run gdb
+
+```
+$ gdb
+(gdb)
+```
+
+Now open another terminal and navigate to your JOS source directory and execute
+
+```
+$ make qemu-gdb
+```
+
+Notice that a new QEMU window opens but is blank and waiting.  Now switch to terminal that is running gdb. You will see 
+```
+[f000:fff0] 0xffff0:    ljmp   $0xf000,$0xe05b
+```
+
+The first instruction 'jmp' is executed by the emulator.  Now,  lets step through next  5 instructions using
+ ```
+(gdb) si 
+```
+
+Next, lets try to  set a breakpoint  at the kernel initialize function. The function is defined in kern/init.c
+ ```
+(gdb) break i386_init 
+```
+
+Switch to your QEMU emulator window. You will see a message "Booting from Hardisk...."
+ ```
+(gdb) si
+```
+
+Now in your gdb terminal  step over each code line. Now if you want to look into register use the following command
+Using just info will give you list of options to lookup
+ ```
+(gdb) info registers 
+(gdb) info
+```
+ 
 
 
 ## Part 3. Understanding JOS makefile
