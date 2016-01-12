@@ -13,7 +13,7 @@ details about git at http://gitimmersion.com/index.html
 $ sudo apt-get install git  (in ubuntu)
 ```
 
-2. Item 2 Set your user name and email
+2. Set your user name and email
 
 ```
 $ git config --global user.name "Your Name"
