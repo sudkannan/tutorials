@@ -13,7 +13,7 @@ details about git at http://gitimmersion.com/index.html
    * Item 3a
    * Item 3b
 
-1. Install git. 
+1. Install git 
 
 ```
 $ sudo apt-get install git  (in ubuntu)
