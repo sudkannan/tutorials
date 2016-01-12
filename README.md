@@ -33,13 +33,12 @@ Now check the status of our source
 
 ```
 $ git status
+
+On branch master
+nothing to commit, working directory clean
 ```
 
 Your status will show that you are in the master branch
-On branch master
-nothing to commit, working directory clean
-
-
 Now, from your root source directory execute
 
 ```
@@ -53,18 +52,15 @@ HEAD		config		logs		refs
 
 The .git directory contains all the bookeeping information required
 to track versions.
-
 Try executing the following command to see all the objects in git
 
 ```
 $ ls -C .git/objects
 ```
 
-
 Now lets explore the git .config file.
 
 ```
-
 [core]
         repositoryformatversion = 0
         filemode = true
@@ -75,23 +71,15 @@ Now lets explore the git .config file.
 [remote "origin"]
         url = git://tc.gtisc.gatech.edu/cs3210-lab
         fetch = +refs/heads/*:refs/remotes/origin/*
-
 ```
 Look into the origin and the branch information
-
-
 Now, lets try adding a file, and staging our changes
 create somefile, say "test.txt"
 
 ```
 $ git add test.txt
 $ git status
-```
 
-
-you will see the following output
-
-```
 On branch lab
 Changes to be committed:
   (use "git reset HEAD <file>..." to unstage)
@@ -108,18 +96,14 @@ $ git commit -m "some comments here"
 ```
 
 
-Now, try to revert your changes
+Now, try to revert your changes and open the .git/HEAD file. You will see that HEAD points to your 
+current branch lab ref: refs/heads/lab
 
 ```
 $ git revert HEAD --no-edit
 [lab 569aa96] Using ARGV
  1 files changed, 1 insertions(+), 1 deletions(-)
 ```
-
-Open the .git/HEAD file. You will see that HEAD points to your 
-current branch lab ref: refs/heads/lab
-
-
 Now, lets say, you are experimenting something different in your code, and don't 
 want to break your current stable code. So you can try creating a branch.
 
@@ -128,7 +112,6 @@ $git checkout -b "mybranch"
  Switched to a new branch 'mybranch'
 ```
 Now open the .git/HEAD. It will point to ref: refs/heads/mybranch
-
 Lets try adding a new file to mybranch
 
 ```
@@ -143,7 +126,6 @@ Once you have finished you can switch back to your lab branch
 $git checkout lab
 ```
 You will not see mycode.txt.
-
 
 Now if you want to merge your mybranch changes with your lab
 Merge your master with my branch
