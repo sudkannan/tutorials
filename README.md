@@ -7,6 +7,12 @@ committing, and submitting your code via. GIT. For more
 details about git at http://gitimmersion.com/index.html
 
 
+1. Item 1
+2. Item 2
+3. Item 3
+   * Item 3a
+   * Item 3b
+
 1. Install git. 
 
 ```
