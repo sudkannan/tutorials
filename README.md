@@ -108,7 +108,7 @@ Now, lets say, you are experimenting something different in your code, and don't
 want to break your current stable code. So you can try creating a branch.
 
 ```
-$git checkout -b "mybranch"
+$ git checkout -b "mybranch"
  Switched to a new branch 'mybranch'
 ```
 Now open the .git/HEAD. It will point to ref: refs/heads/mybranch
@@ -123,7 +123,7 @@ All your changes, edits and commits will now happen to this branch.
 Once you have finished you can switch back to your lab branch
 
 ```
-$git checkout lab
+$ git checkout lab
 ```
 You will not see mycode.txt.
 
@@ -131,8 +131,8 @@ Now if you want to merge your mybranch changes with your lab
 Merge your master with my branch
 
 ```
-$git checkout lab
-$git merge mybranch 
+$ git checkout lab
+$ git merge mybranch 
 ```
 
 
