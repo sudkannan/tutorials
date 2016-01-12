@@ -7,13 +7,13 @@ committing, and submitting your code via. GIT. For more
 details about git at http://gitimmersion.com/index.html
 
 
-1.Install git. 
+1. Install git. 
 
 ```
 $ sudo apt-get install git  (in ubuntu)
 ```
 
-2.Set your user name and email
+2. Item 2 Set your user name and email
 
 ```
 $ git config --global user.name "Your Name"
