@@ -136,7 +136,7 @@ $ git merge mybranch
 ```
 
 
-You will the following output
+You will see the following output
 
 ```
 Updating 9cc5f88..08226cf
@@ -189,8 +189,55 @@ Please enter your API key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
------------------------------------------------------------------------
-Part 3. Understanding JOS makefile?
------------------------------------------------------------------------
+## Part 3. Understanding JOS makefile?
+JOS makefile
+The JOS GNUmakefile includes a number of phony targets for running JOS in various ways. All of these targets configure QEMU to listen for GDB connections (the *-gdb targets also wait for this connection). To start once QEMU is running, simply run gdb from your lab directory. We provide a .gdbinit file that automatically points GDB at QEMU, loads the kernel symbol file, and switches between 16-bit and 32-bit mode. Exiting GDB will shut down QEMU.
+
+
+Build everything and start QEMU with the VGA console in a new window and the serial console in your terminal. To exit, either close the VGA window or press Ctrl-c or Ctrl-a x in your terminal.
+```
+$ make qemu
+```
+
+
+Like make qemu, but run with only the serial console. To exit, press Ctrl-a x. This is particularly useful over SSH connections to Athena dialups because the VGA window consumes a lot of bandwidth.
+```
+$ make qemu-nox
+```
+
+Start gdb with the settings in the JOS .gdbinit.
+```
+$ make gdb
+```
+
+
+Like make qemu, but rather than passively accepting GDB connections at any time, this pauses at the first machine instruction and waits for a GDB connection.
+```
+make qemu-gdb
+```
+
+A combination of the qemu-nox and qemu-gdb targets.
+```
+make qemu-nox-gdb
+```
+
+Verbose mode. Print out every command being executed, including arguments.
+```
+make run-name
+```
+
+Stop after any failed grade test and leave the QEMU output in jos.out for inspection.
+```
+make V=1 ...
+make V=1 grade
+```
+
+Specify additional arguments to pass to QEMU.
+```
+make QEMUEXTRA='*args*' ...
+```
+
+
+
 
 
