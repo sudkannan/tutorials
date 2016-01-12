@@ -42,7 +42,10 @@ nothing to commit, working directory clean
 
 5. Now, from your root source directory execute
 
+```
 $ ls -C .git
+```
+
 
 Your output will be
 COMMIT_EDITMSG	ORIG_HEAD	index		objects
