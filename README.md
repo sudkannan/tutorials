@@ -184,13 +184,10 @@ Please enter your API key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 
+
 ## Part 2. Getting hands dirty with QEMU 
 QEMU includes a built-in monitor that can inspect and modify the machine state in useful ways. To enter the monitor, press Ctrl-a c in the terminal running QEMU. Press Ctrl-a c again to switch back to the serial console. For a complete reference to the monitor commands, see the QEMU manual. Here are some particularly useful commands:
 
-QEMU Emulator
-In cs3210, we will use the QEMU Emulator, a modern and relatively fast emulator
-
-To get started, lets compile our first kernel
 
 ```
 $ cd lab
@@ -273,7 +270,8 @@ The first instruction 'jmp' is executed by the emulator.  Now,  lets step throug
 (gdb) si 
 ```
 
-Next, lets try to  set a breakpoint  at the kernel initialize function. The function is defined in kern/init.c
+Next, lets try to  set a breakpoint  at the kernel initialize function. The function is defined in kern/init.c. You can also use 
+b ( a shorthand for break)
  ```
 (gdb) break i386_init 
 ```
@@ -285,9 +283,18 @@ Switch to your QEMU emulator window. You will see a message "Booting from Hardis
 
 Now in your gdb terminal  step over each code line. Now if you want to look into register use the following command
 Using just info will give you list of options to lookup
+
  ```
 (gdb) info registers 
 (gdb) info
+```
+ 
+Now, lets place a breakpoint at 0x7c00 . This is the location where our boot sector into memory. 
+We can set breakpoints by using address also. Continue execution. 
+
+ ```
+(gdb) b *0x7c00 
+(gdb) c
 ```
  
 
